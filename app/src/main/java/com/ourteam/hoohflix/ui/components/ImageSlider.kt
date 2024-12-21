@@ -57,10 +57,10 @@ fun ImageSlider() {
         HorizontalPager(
             count = imageSlider.size,
             state = pagerState,
-            contentPadding = PaddingValues(horizontal = 15.dp),
+//            contentPadding = PaddingValues(horizontal = 15.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(180.dp)
+                .height(160.dp)
         ) { page ->
             Card(
                 shape = RoundedCornerShape(12.dp),
@@ -126,8 +126,8 @@ fun ImageSlider() {
         HorizontalPagerIndicator(
             pagerState = pagerState,
             modifier = Modifier
-                .align(Alignment.BottomCenter),
-            // .padding(10.dp),
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 20.dp),
             activeColor = Color.White,
             inactiveColor = Color.DarkGray
         )

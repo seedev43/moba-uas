@@ -19,7 +19,7 @@ import com.ourteam.hoohflix.ui.view.SignUpPage
 @ExperimentalMaterial3Api
 @Composable
 fun NavRoute(navController: NavHostController) {
-    NavHost(navController, startDestination = "home") {
+    NavHost(navController, startDestination = "search") {
         composable("welcome") {
             WelcomeScreen(navController = navController)
         }

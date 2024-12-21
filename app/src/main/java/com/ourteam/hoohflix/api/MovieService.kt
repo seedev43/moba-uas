@@ -24,4 +24,11 @@ interface MovieService {
     suspend fun getMovieDetail(
         @Path("id") id: Int
     ): MovieDetail
+
+    @GET("search/movie?language=en-US")
+    suspend fun searchMovie(
+        @Query("query") query: String,
+        @Query("include_adult") include_adult: Boolean = false,
+        @Query("page") page: Int = 1
+    ): MovieResponse
 }

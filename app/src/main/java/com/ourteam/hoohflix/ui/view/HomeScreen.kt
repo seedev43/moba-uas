@@ -35,7 +35,6 @@ import kotlinx.coroutines.launch
 fun HomeScreen(navController: NavController) {
     LayoutScreen(navController = navController) { snackbarHostState ->
         val scrollState = rememberScrollState()
-//        val movieRepo = MovieRepository()
         val service = RetrofitInstance.movieService
         val popularMovies = remember { mutableStateOf<List<MovieItem>>(emptyList()) }
         val topRatedMovies = remember { mutableStateOf<List<MovieItem>>(emptyList()) }
@@ -66,6 +65,7 @@ fun HomeScreen(navController: NavController) {
 
         Column(
             modifier = Modifier
+                .padding(start = 15.dp, end = 15.dp)
                 .verticalScroll(scrollState)
                 .fillMaxSize()
         ) {
@@ -75,8 +75,10 @@ fun HomeScreen(navController: NavController) {
                 contentDescription = "Logo",
                 modifier = Modifier
                     .width(120.dp)
-                    .padding(15.dp)
+//                    .padding(15.dp)
             )
+
+            Spacer(modifier = Modifier.size(15.dp))
 
             // image slider
             ImageSlider()

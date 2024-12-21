@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 fun ShimmerLoading() {
     Column(
         modifier = Modifier
-            .padding(15.dp)
+            .padding(end = 15.dp)
             .width(120.dp)
     ) {
         // Gambar poster shimmer effect

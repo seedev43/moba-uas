@@ -7,10 +7,12 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 
 @Composable
 fun LayoutScreen(
+    modifier: Modifier = Modifier,
     navController: NavController,
     topBar: @Composable () -> Unit = {},
     bottomBar: @Composable () -> Unit = { BottomNavigationBar(navController = navController)},
@@ -22,7 +24,7 @@ fun LayoutScreen(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         bottomBar = bottomBar
     ) { paddingValues ->
-        Box(modifier = Modifier.padding(paddingValues)) {
+        Box(modifier = Modifier.padding(paddingValues).fillMaxSize()) {
             contentScreen(snackbarHostState)
         }
     }

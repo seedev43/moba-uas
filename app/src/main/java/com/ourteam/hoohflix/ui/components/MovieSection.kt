@@ -4,9 +4,11 @@ import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
@@ -32,9 +34,9 @@ fun MovieSection(
 ) {
     Text(
         text = title,
-        fontSize = 24.sp,
+        fontSize = 20.sp,
         fontWeight = FontWeight.Bold,
-        modifier = Modifier.padding(15.dp)
+        modifier = Modifier.padding(top = 15.dp, bottom = 10.dp)
     )
 
     if (listMovies.isNullOrEmpty()) {
@@ -54,7 +56,7 @@ fun MovieSection(
                 movie.poster_url?.let { posterUrl ->
                     Column(
                         modifier = Modifier
-                            .padding(15.dp)
+                            .padding(end = 10.dp)
                             .width(120.dp)
                             .clickable(
                                 onClick = { navController.navigate("detail/${movie.id}") },
@@ -76,7 +78,7 @@ fun MovieSection(
                                 .fillMaxWidth()
                                 .padding(top = 8.dp)
                                 .wrapContentHeight(),
-                            maxLines = 4, // Batas maksimal baris teks
+                            maxLines = 2, // Batas maksimal baris teks
                             fontSize = 14.sp
                         )
                     }
@@ -84,4 +86,6 @@ fun MovieSection(
             }
         }
     }
+
+    Spacer(modifier = Modifier.height(20.dp))
 }
