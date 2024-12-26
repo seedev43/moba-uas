@@ -75,7 +75,7 @@ fun HomeScreen(navController: NavController) {
                 contentDescription = "Logo",
                 modifier = Modifier
                     .width(120.dp)
-//                    .padding(15.dp)
+                    .padding(top = 10.dp)
             )
 
             Spacer(modifier = Modifier.size(15.dp))
