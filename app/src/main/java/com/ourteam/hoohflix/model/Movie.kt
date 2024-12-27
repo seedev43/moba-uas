@@ -12,7 +12,6 @@ data class MovieResponse(
 data class MovieItem(
     val id: Int,
     val title: String,
-    val original_title: String?,
     val overview: String,
     val genre: String?,
     val poster_local: Int,
@@ -26,7 +25,7 @@ data class MovieItem(
 data class MovieDetail(
     val id: Int,
     val title: String,
-    val original_title: String?,
+    val original_title: String? = "",
     val overview: String,
     val genres: List<Genre>,
     val backdrop_path: String?,
