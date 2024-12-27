@@ -43,7 +43,7 @@ fun DetailScreen(movieId: Int, navController: NavController) {
             TopAppBar(
                 title = {
                     Text(
-                        text = "Home",
+                        text = "Back",
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp
                     )
