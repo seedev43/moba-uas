@@ -19,11 +19,13 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
+//    warna untuk background app
     background = MainColor,
     onBackground = Color.White,
-    primary = Color.White,
-    tertiary = Color.White,
+//    warna untuk button
+    primary = MainColor,
     onPrimary = Color.White,
+    tertiary = MainColor,
     secondary = Color.White,
     onSecondary = Color.White,
     secondaryContainer = Color.White,

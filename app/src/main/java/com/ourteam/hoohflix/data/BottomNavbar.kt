@@ -5,5 +5,5 @@ import com.ourteam.hoohflix.model.BottomNavbarItem
 val BottomNavbarItems = listOf(
     BottomNavbarItem.Home,
     BottomNavbarItem.Search,
-    BottomNavbarItem.Settings,
+    BottomNavbarItem.Profile,
 )

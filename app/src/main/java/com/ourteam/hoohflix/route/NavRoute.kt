@@ -13,18 +13,20 @@ import com.ourteam.hoohflix.ui.view.HomeScreen
 import com.ourteam.hoohflix.ui.view.SearchScreen
 import com.ourteam.hoohflix.ui.view.WelcomeScreen
 import com.ourteam.hoohflix.ui.view.LoginPage
+import com.ourteam.hoohflix.ui.view.ProfileScreen
 import com.ourteam.hoohflix.ui.view.SignUpPage
+import com.ourteam.hoohflix.utils.SessionManager
 
 @ExperimentalPagerApi
 @ExperimentalMaterial3Api
 @Composable
-fun NavRoute(navController: NavHostController) {
-    NavHost(navController, startDestination = "search") {
+fun NavRoute(navController: NavHostController, sessionManager: SessionManager) {
+    NavHost(navController, startDestination = "profile") {
         composable("welcome") {
             WelcomeScreen(navController = navController)
         }
         composable("login") {
-            LoginPage(navController = navController)
+            LoginPage(navController = navController, sessionManager = sessionManager)
         }
         composable("signup") {
             SignUpPage(navController = navController)
@@ -34,6 +36,9 @@ fun NavRoute(navController: NavHostController) {
         }
         composable("search") {
             SearchScreen(navController = navController)
+        }
+        composable("profile") {
+            ProfileScreen(navController = navController)
         }
         composable(
             route = "detail/{movieId}",

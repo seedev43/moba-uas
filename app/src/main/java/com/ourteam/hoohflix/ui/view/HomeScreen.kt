@@ -23,7 +23,8 @@ import com.ourteam.hoohflix.ui.components.BottomNavigationBar
 import com.ourteam.hoohflix.ui.components.LayoutScreen
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.ourteam.hoohflix.R
-import com.ourteam.hoohflix.api.RetrofitInstance
+import com.ourteam.hoohflix.api.DjangoRetrofitClient
+import com.ourteam.hoohflix.api.MovieRetrofitClient
 import com.ourteam.hoohflix.model.MovieItem
 import com.ourteam.hoohflix.repository.MovieRepository
 import com.ourteam.hoohflix.ui.components.ImageSlider
@@ -35,11 +36,20 @@ import kotlinx.coroutines.launch
 fun HomeScreen(navController: NavController) {
     LayoutScreen(navController = navController) { snackbarHostState ->
         val scrollState = rememberScrollState()
-        val service = RetrofitInstance.movieService
+        val service = MovieRetrofitClient.movieService
         val popularMovies = remember { mutableStateOf<List<MovieItem>>(emptyList()) }
         val topRatedMovies = remember { mutableStateOf<List<MovieItem>>(emptyList()) }
 
+        val sessionManager = DjangoRetrofitClient.sessionManager
+
         LaunchedEffect(Unit) {
+            if (!sessionManager.isLoggedIn()) {
+                navController.navigate("login") {
+                    popUpTo("login") { inclusive = true }
+                }
+                return@LaunchedEffect
+            }
+
             var hasError = false
 
             try {

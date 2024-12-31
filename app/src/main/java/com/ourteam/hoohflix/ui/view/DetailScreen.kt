@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
-import com.ourteam.hoohflix.api.RetrofitInstance
+import com.ourteam.hoohflix.api.MovieRetrofitClient
 import com.ourteam.hoohflix.model.MovieDetail
 import com.ourteam.hoohflix.model.MovieItem
 import com.ourteam.hoohflix.ui.components.LayoutScreen
@@ -50,12 +50,11 @@ fun DetailScreen(movieId: Int, navController: NavController) {
                 },
                 navigationIcon = {
                     IconButton(onClick = {
-                        // kembali ke home screen
                         navController.popBackStack()
                     }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back to Home",
+                            contentDescription = "Back",
                             tint = Color.White
                         )
                     }
@@ -67,7 +66,7 @@ fun DetailScreen(movieId: Int, navController: NavController) {
     ) {
         val scrollState = rememberScrollState()
         var rating by remember { mutableStateOf(0) }
-        val service = RetrofitInstance.movieService
+        val service = MovieRetrofitClient.movieService
         val detailMovie = remember { mutableStateOf<MovieDetail?>(null) }
 
         LaunchedEffect(Unit) {
@@ -124,6 +123,17 @@ fun DetailScreen(movieId: Int, navController: NavController) {
                                     color = Color.White,
                                     modifier = Modifier.padding(bottom = 18.dp)
                                 )
+
+                                if(!detail.original_title.isNullOrBlank()) {
+                                    Text(
+                                        text = detail.original_title,
+                                        fontSize = 16.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.White,
+                                        modifier = Modifier.padding(bottom = 18.dp)
+                                    )
+                                }
+
 
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically

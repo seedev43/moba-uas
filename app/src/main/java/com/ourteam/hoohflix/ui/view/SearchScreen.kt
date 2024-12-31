@@ -67,7 +67,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
-import com.ourteam.hoohflix.api.RetrofitInstance
+import com.ourteam.hoohflix.api.MovieRetrofitClient
 import com.ourteam.hoohflix.model.MovieItem
 import com.ourteam.hoohflix.ui.components.LayoutScreen
 import com.ourteam.hoohflix.ui.theme.MainColor
@@ -83,7 +83,7 @@ fun SearchScreen(navController: NavController) {
     var isLoading by remember { mutableStateOf(false) }
     var showResult by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
-    val service = RetrofitInstance.movieService
+    val service = MovieRetrofitClient.movieService
     val keyboardController = LocalSoftwareKeyboardController.current
 
     LayoutScreen(

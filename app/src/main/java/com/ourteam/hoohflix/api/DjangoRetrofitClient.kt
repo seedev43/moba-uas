@@ -5,21 +5,17 @@ import okhttp3.Interceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import com.ourteam.hoohflix.BuildConfig
+import com.ourteam.hoohflix.utils.SessionInterceptor
+import com.ourteam.hoohflix.utils.SessionManager
 
-object RetrofitInstance {
-    private const val BASE_URL = BuildConfig.API_URL
+object DjangoRetrofitClient {
+    private const val BASE_URL = "http://192.168.0.118:8000/"
 
-    private val authInterceptor = Interceptor { chain ->
-        val request = chain.request().newBuilder()
-            .addHeader("Accept", "application/json")
-            .addHeader("Authorization", "Bearer ${BuildConfig.BEARER_TOKEN}")
-            .build()
-        chain.proceed(request)
-    }
+    lateinit var sessionManager: SessionManager
 
     private val okHttpClient: OkHttpClient by lazy {
         OkHttpClient.Builder()
-            .addInterceptor(authInterceptor)
+            .addInterceptor(SessionInterceptor(sessionManager))
             .build()
     }
 
@@ -31,7 +27,7 @@ object RetrofitInstance {
             .build()
     }
 
-    val movieService: MovieService by lazy {
-        retrofit.create(MovieService::class.java)
+    val djangoService: ApiService by lazy {
+        retrofit.create(ApiService::class.java)
     }
 }
