@@ -78,7 +78,8 @@ fun DetailScreen(movieId: Int, navController: NavController) {
             CircularProgressIndicator(
                 modifier = Modifier
                     .fillMaxSize()
-                    .wrapContentSize(Alignment.Center)
+                    .wrapContentSize(Alignment.Center),
+                color = ThirdColor
             )
         } else {
             detailMovie.value?.let { detail ->

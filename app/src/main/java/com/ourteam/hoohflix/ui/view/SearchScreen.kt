@@ -185,7 +185,8 @@ fun SearchScreen(navController: NavController) {
 
             if (isLoading) {
                 CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    color = ThirdColor
                 )
             }
 

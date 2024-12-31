@@ -12,6 +12,13 @@ data class LoginRequest(
     val password: String
 )
 
+data class LoginResponse(
+    val success: Boolean,
+    val id: Int,
+    val username: String,
+    val message: String
+)
+
 data class RegisterRequest(
     @SerializedName("first_name")
     val firstName: String,
@@ -20,4 +27,12 @@ data class RegisterRequest(
     val username: String,
     val email: String,
     val password: String
+)
+
+data class UserDetailResponse(
+    val id: Int,
+    val username: String,
+    val email: String,
+    val first_name: String,
+    val last_name: String
 )

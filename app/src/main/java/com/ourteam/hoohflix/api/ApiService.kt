@@ -1,10 +1,12 @@
 package com.ourteam.hoohflix.api
 
 import com.ourteam.hoohflix.model.LoginRequest
+import com.ourteam.hoohflix.model.LoginResponse
 import com.ourteam.hoohflix.model.MovieResponse
 import com.ourteam.hoohflix.model.MovieDetail
 import com.ourteam.hoohflix.model.RegisterRequest
 import com.ourteam.hoohflix.model.ResponseBody
+import com.ourteam.hoohflix.model.UserDetailResponse
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
@@ -45,5 +47,8 @@ interface ApiService {
     @POST("auth/login")
     suspend fun loginUser(
         @Body request: LoginRequest
-    ): Response<ResponseBody>
+    ): Response<LoginResponse>
+
+    @GET("user/{id}/")
+    suspend fun getUserDetail(@Path("id") userId: Int): Response<UserDetailResponse>
 }

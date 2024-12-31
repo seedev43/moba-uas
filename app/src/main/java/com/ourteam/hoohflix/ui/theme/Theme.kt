@@ -25,7 +25,7 @@ private val LightColorScheme = lightColorScheme(
 //    warna untuk button
     primary = MainColor,
     onPrimary = Color.White,
-    tertiary = MainColor,
+    tertiary = ThirdColor,
     secondary = Color.White,
     onSecondary = Color.White,
     secondaryContainer = Color.White,

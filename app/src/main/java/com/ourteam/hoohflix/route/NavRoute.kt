@@ -21,6 +21,7 @@ import com.ourteam.hoohflix.utils.SessionManager
 @ExperimentalMaterial3Api
 @Composable
 fun NavRoute(navController: NavHostController, sessionManager: SessionManager) {
+    val initSessionPage = if (sessionManager.isLoggedIn()) "home" else "login"
     NavHost(navController, startDestination = "profile") {
         composable("welcome") {
             WelcomeScreen(navController = navController)
@@ -38,7 +39,7 @@ fun NavRoute(navController: NavHostController, sessionManager: SessionManager) {
             SearchScreen(navController = navController)
         }
         composable("profile") {
-            ProfileScreen(navController = navController)
+            ProfileScreen(navController = navController, sessionManager = sessionManager)
         }
         composable(
             route = "detail/{movieId}",

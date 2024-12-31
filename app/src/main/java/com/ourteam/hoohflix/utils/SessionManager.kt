@@ -32,4 +32,12 @@ class SessionManager(context: Context) {
     fun isLoggedIn(): Boolean {
         return getSessionCookie() != null
     }
+
+    fun saveUserId(userId: Int) {
+        editor.putInt("user_id", userId).apply()
+    }
+
+    fun getUserId(): Int {
+        return prefs.getInt("user_id", -1)
+    }
 }

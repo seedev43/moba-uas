@@ -57,17 +57,25 @@ fun LoginPage(navController: NavController, sessionManager: SessionManager) {
                 var response = service.loginUser(body)
 
                 if(response.isSuccessful) {
+                    val responseBody = response.body()
                     val sessionCookie = response.headers()["Set-Cookie"]?.split(";")?.find {
                         it.startsWith("sessionid")
                     }
 
-                    if (!sessionCookie.isNullOrEmpty()) {
-                        // Simpan cookie di sessionManager
-                        sessionManager.saveSessionCookie(sessionCookie)
+                    responseBody?.let {
+                        if(it.success) {
+                            sessionCookie?.let { cookie ->
+                                sessionManager.saveSessionCookie(cookie) // Simpan cookie
+                            }
+                            sessionManager.saveUserId(it.id)
+
+                            isSubmit = false
+                            navController.navigate("home") {
+                                popUpTo("login") { inclusive = true }
+                            }
+                        }
                     }
 
-                    isSubmit = false
-                    navController.navigate("home")
                 } else {
                     val errorBody = response.errorBody()?.string()
                     val errorJson = JSONObject(errorBody)
