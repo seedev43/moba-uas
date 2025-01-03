@@ -216,7 +216,7 @@ fun SearchScreen(navController: NavController) {
                                 modifier = Modifier
                                     .padding(start = 5.dp)
                             ) {
-                                Text(text = movie.title)
+                                Text(text = "${movie.title} (${movie.release_date})")
 //                                Text(text = "Action, Thriler, Horror, Serem, Abiez, Takut, Nyo")
                             }
                         }
