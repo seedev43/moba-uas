@@ -118,11 +118,11 @@ fun DetailScreen(movieId: Int, navController: NavController) {
                                     .verticalScroll(scrollState)
                             ) {
                                 Text(
-                                    text = "${detail.title} (${detail.release_date})",
-                                    fontSize = 18.sp,
+                                    text = "${detail.title}",
+                                    fontSize = 20.sp,
                                     fontWeight = FontWeight.Bold,
                                     color = Color.White,
-                                    modifier = Modifier.padding(bottom = 10.dp)
+                                    modifier = Modifier.padding(top = 5.dp, bottom = 10.dp)
                                 )
 
                                 if(!detail.original_title.isNullOrBlank()) {
@@ -151,6 +151,13 @@ fun DetailScreen(movieId: Int, navController: NavController) {
                                         modifier = Modifier.padding(start = 4.dp).size(16.dp)
                                     )
                                 }
+
+                                Text(
+                                    text = detail.release_date,
+                                    fontSize = 14.sp,
+                                    color = Color.White,
+                                    modifier = Modifier.padding(bottom = 8.dp)
+                                )
 
                                 Text(
                                     text = detail.genres.joinToString { it.name },
