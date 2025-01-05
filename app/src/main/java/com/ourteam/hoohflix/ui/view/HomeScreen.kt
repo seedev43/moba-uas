@@ -25,20 +25,26 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.ourteam.hoohflix.R
 import com.ourteam.hoohflix.api.DjangoRetrofitClient
 import com.ourteam.hoohflix.api.MovieRetrofitClient
+import com.ourteam.hoohflix.model.RecommendMovie
 import com.ourteam.hoohflix.model.MovieItem
+import com.ourteam.hoohflix.model.RecommendationRequest
 import com.ourteam.hoohflix.repository.MovieRepository
 import com.ourteam.hoohflix.ui.components.ImageSlider
 import com.ourteam.hoohflix.ui.components.MovieSection
+import com.ourteam.hoohflix.utils.SessionManager
 import kotlinx.coroutines.launch
 
 @ExperimentalPagerApi
 @Composable
-fun HomeScreen(navController: NavController) {
+fun HomeScreen(navController: NavController, sessionManager: SessionManager) {
     LayoutScreen(navController = navController) { snackbarHostState ->
         val scrollState = rememberScrollState()
+        val userId = sessionManager.getUserId()
         val service = MovieRetrofitClient.movieService
+        val djangoService = DjangoRetrofitClient.djangoService
         val popularMovies = remember { mutableStateOf<List<MovieItem>>(emptyList()) }
         val topRatedMovies = remember { mutableStateOf<List<MovieItem>>(emptyList()) }
+        val recommendationMovies = remember { mutableStateOf<List<MovieItem>>(emptyList()) }
 
         val sessionManager = DjangoRetrofitClient.sessionManager
 
@@ -51,6 +57,13 @@ fun HomeScreen(navController: NavController) {
             }
 
             var hasError = false
+
+            try {
+                val response = djangoService.getRecommendationMovies(RecommendationRequest(userId))
+                recommendationMovies.value = response.data
+            } catch (e: Exception) {
+                Log.e("HomeScreen", e.toString())
+            }
 
             try {
                 val popularResponse = service.getPopularMovies()
@@ -107,6 +120,14 @@ fun HomeScreen(navController: NavController) {
                 navController = navController
             )
 
+            if (recommendationMovies.value.isNotEmpty()) {
+                MovieSection(
+                    title = "Recommendation for You",
+                    listMovies = recommendationMovies.value,
+                    navController = navController
+                )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
         }
 
     }

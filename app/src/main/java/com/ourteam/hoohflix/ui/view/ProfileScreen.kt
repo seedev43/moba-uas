@@ -58,7 +58,8 @@ fun ProfileScreen(navController: NavController, sessionManager: SessionManager) 
     fun handleLogout() {
         sessionManager.clearSession()
         navController.navigate("login") {
-            popUpTo("profile") { inclusive = true }
+            popUpTo(0) // Membersihkan seluruh stack navigasi
+            launchSingleTop = true // Mencegah membuka ulang halaman yang sama
         }
     }
 

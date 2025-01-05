@@ -1,5 +1,8 @@
 package com.ourteam.hoohflix.ui.view
 
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -16,6 +19,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,21 +27,37 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import com.ourteam.hoohflix.api.DjangoRetrofitClient
 import com.ourteam.hoohflix.api.MovieRetrofitClient
 import com.ourteam.hoohflix.model.MovieDetail
 import com.ourteam.hoohflix.model.MovieItem
+import com.ourteam.hoohflix.model.SubmitRatingRequest
+import com.ourteam.hoohflix.ui.components.ConfirmActionDialog
 import com.ourteam.hoohflix.ui.components.LayoutScreen
 import com.ourteam.hoohflix.ui.theme.MainColor
+import com.ourteam.hoohflix.ui.theme.SecondColor
 import com.ourteam.hoohflix.ui.theme.ThirdColor
+import com.ourteam.hoohflix.utils.SessionManager
+import kotlinx.coroutines.launch
 
 @ExperimentalMaterial3Api
 @Composable
-fun DetailScreen(movieId: Int, navController: NavController) {
+fun DetailScreen(movieId: Int, navController: NavController, sessionManager: SessionManager) {
+    val context = LocalContext.current
+    val scrollState = rememberScrollState()
+    var rating by remember { mutableStateOf(0) }
+    val userId = sessionManager.getUserId()
+    val service = MovieRetrofitClient.movieService
+    val djangoService = DjangoRetrofitClient.djangoService
+    val detailMovie = remember { mutableStateOf<MovieDetail?>(null) }
+    var showConfirmationDialog by remember { mutableStateOf(false) }
+    val coroutineScope = rememberCoroutineScope()
     LayoutScreen(
         topBar = {
             TopAppBar(
@@ -63,12 +83,7 @@ fun DetailScreen(movieId: Int, navController: NavController) {
         },
         bottomBar = {},
         navController = navController
-    ) {
-        val scrollState = rememberScrollState()
-        var rating by remember { mutableStateOf(0) }
-        val service = MovieRetrofitClient.movieService
-        val detailMovie = remember { mutableStateOf<MovieDetail?>(null) }
-
+    ) { snackbarHostState ->
         LaunchedEffect(Unit) {
             val detailResponse = service.getMovieDetail(movieId)
             detailMovie.value = detailResponse
@@ -148,7 +163,9 @@ fun DetailScreen(movieId: Int, navController: NavController) {
                                         imageVector = Icons.Filled.Star,
                                         contentDescription = "Rating",
                                         tint = ThirdColor,
-                                        modifier = Modifier.padding(start = 4.dp).size(16.dp)
+                                        modifier = Modifier
+                                            .padding(start = 4.dp)
+                                            .size(16.dp)
                                     )
                                 }
 
@@ -156,7 +173,7 @@ fun DetailScreen(movieId: Int, navController: NavController) {
                                     text = detail.release_date,
                                     fontSize = 14.sp,
                                     color = Color.White,
-                                    modifier = Modifier.padding(bottom = 8.dp)
+                                    modifier = Modifier.padding(bottom = 0.dp)
                                 )
 
                                 Text(
@@ -216,8 +233,53 @@ fun DetailScreen(movieId: Int, navController: NavController) {
                                     text = "You rated: $rating/5",
                                     fontSize = 16.sp,
                                     color = Color.White,
-                                    modifier = Modifier.padding(top = 8.dp, bottom = 20.dp)
+                                    modifier = Modifier.padding(top = 8.dp, bottom = 15.dp)
                                 )
+
+                                Button(
+                                    onClick = { showConfirmationDialog = true },
+                                    colors = ButtonDefaults.buttonColors(containerColor = SecondColor),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(16.dp)
+                                ) {
+                                    Text(text = "Submit Rating", color = Color.White)
+                                }
+
+                                if (showConfirmationDialog) {
+                                    ConfirmActionDialog(
+                                        title = "Confirm Rating",
+                                        description = "Are you sure you want to submit this rating?",
+                                        onDismiss = { showConfirmationDialog = false }
+                                    ) {
+                                        showConfirmationDialog = false
+                                        coroutineScope.launch {
+                                            try {
+                                                val response = djangoService.submitRating(
+                                                    SubmitRatingRequest(
+                                                        user_id = userId,
+                                                        movie_id = movieId.toString(),
+                                                        rating = rating,
+                                                        genre = detail.genres.joinToString { it.name }
+                                                    )
+                                                )
+
+                                                if (response.isSuccessful) {
+                                                    Toast.makeText(context, "You rating has been submitted", Toast.LENGTH_SHORT).show()
+                                                    navController.popBackStack()
+                                                } else {
+                                                    Toast.makeText(context, "Failed to rating this movie", Toast.LENGTH_SHORT).show()
+                                                }
+                                            } catch (e: Exception) {
+                                                Log.e("DetailScreen", e.toString())
+                                                snackbarHostState?.showSnackbar("Please try again and check your internet connection.")
+                                            }
+                                        }
+
+                                    }
+                                }
+
+                                Spacer(modifier = Modifier.height(10.dp))
                             }
                         }
                     }

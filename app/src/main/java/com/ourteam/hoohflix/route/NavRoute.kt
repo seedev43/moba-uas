@@ -22,7 +22,7 @@ import com.ourteam.hoohflix.utils.SessionManager
 @Composable
 fun NavRoute(navController: NavHostController, sessionManager: SessionManager) {
     val initSessionPage = if (sessionManager.isLoggedIn()) "home" else "login"
-    NavHost(navController, startDestination = "profile") {
+    NavHost(navController, startDestination = initSessionPage) {
         composable("welcome") {
             WelcomeScreen(navController = navController)
         }
@@ -33,7 +33,7 @@ fun NavRoute(navController: NavHostController, sessionManager: SessionManager) {
             SignUpPage(navController = navController)
         }
         composable("home") {
-            HomeScreen(navController = navController)
+            HomeScreen(navController = navController, sessionManager = sessionManager)
         }
         composable("search") {
             SearchScreen(navController = navController)
@@ -47,7 +47,7 @@ fun NavRoute(navController: NavHostController, sessionManager: SessionManager) {
             arguments = listOf(navArgument("movieId") { type = NavType.IntType })
         ) { backStackEntry ->
             val movieId = backStackEntry.arguments?.getInt("movieId") ?: 0
-            DetailScreen(movieId, navController)
+            DetailScreen(movieId = movieId, navController = navController, sessionManager = sessionManager)
         }
     }
 }

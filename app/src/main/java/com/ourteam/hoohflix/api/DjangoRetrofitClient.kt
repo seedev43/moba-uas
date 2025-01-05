@@ -9,7 +9,7 @@ import com.ourteam.hoohflix.utils.SessionInterceptor
 import com.ourteam.hoohflix.utils.SessionManager
 
 object DjangoRetrofitClient {
-    private const val BASE_URL = "http://192.168.0.118:8000/"
+    private const val BASE_URL = "https://seedev43.pythonanywhere.com/"
 
     lateinit var sessionManager: SessionManager
 

@@ -4,8 +4,11 @@ import com.ourteam.hoohflix.model.LoginRequest
 import com.ourteam.hoohflix.model.LoginResponse
 import com.ourteam.hoohflix.model.MovieResponse
 import com.ourteam.hoohflix.model.MovieDetail
+import com.ourteam.hoohflix.model.RecommendationMovieResponse
+import com.ourteam.hoohflix.model.RecommendationRequest
 import com.ourteam.hoohflix.model.RegisterRequest
 import com.ourteam.hoohflix.model.ResponseBody
+import com.ourteam.hoohflix.model.SubmitRatingRequest
 import com.ourteam.hoohflix.model.UserDetailResponse
 import retrofit2.Call
 import retrofit2.Response
@@ -50,5 +53,17 @@ interface ApiService {
     ): Response<LoginResponse>
 
     @GET("user/{id}/")
-    suspend fun getUserDetail(@Path("id") userId: Int): Response<UserDetailResponse>
+    suspend fun getUserDetail(
+        @Path("id") userId: Int
+    ): Response<UserDetailResponse>
+
+    @POST("add_rating")
+    suspend fun submitRating(
+        @Body request: SubmitRatingRequest
+    ): Response<ResponseBody>
+
+    @POST("get-recommendation-movies")
+    suspend fun getRecommendationMovies(
+        @Body request: RecommendationRequest
+    ): RecommendationMovieResponse
 }

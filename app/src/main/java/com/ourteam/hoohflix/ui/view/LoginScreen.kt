@@ -115,9 +115,9 @@ fun LoginPage(navController: NavController, sessionManager: SessionManager) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 20.dp, vertical = 150.dp)
+                .padding(horizontal = 20.dp)
                 .imePadding(),
-            verticalArrangement = Arrangement.Bottom
+            verticalArrangement = Arrangement.Center
         ) {
             OutlinedTextField(
                 value = username,

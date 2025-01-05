@@ -4,7 +4,25 @@ import com.google.gson.annotations.SerializedName
 
 data class ResponseBody(
     val success: Boolean,
-    val message: String
+    val message: String,
+    val data: Any?
+)
+
+data class RecommendationMovieResponse(
+    val success: Boolean,
+    val message: String,
+    val data: List<MovieItem>
+)
+
+data class RecommendationRequest(
+    val user_id: Int
+)
+
+data class RecommendMovie(
+    val id: Int,
+    val title: String,
+    val poster_path: String,
+    val genres: String
 )
 
 data class LoginRequest(
@@ -35,4 +53,11 @@ data class UserDetailResponse(
     val email: String,
     val first_name: String,
     val last_name: String
+)
+
+data class SubmitRatingRequest(
+    val user_id: Int,
+    val movie_id: String,
+    val rating: Int,
+    val genre: String
 )
